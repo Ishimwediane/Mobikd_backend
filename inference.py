@@ -4,10 +4,9 @@ import numpy as np
 from pathlib import Path
 from PIL import Image
 
-# Setup paths relative to root of MobiKD project
+# Setup paths — models are stored inside the backend/models/ directory
 BACKEND_DIR = Path(__file__).parent
-ROOT = BACKEND_DIR.parent
-MODELS_DIR = ROOT / "models"
+MODELS_DIR = BACKEND_DIR / "models"
 
 LEAF_MODEL_PATH = MODELS_DIR / "leaf_validator" / "kd_mobilenetv2_leaf_validator_float16.tflite"
 DISEASE_MODEL_PATH = MODELS_DIR / "potato_disease" / "kd_mobilenetv2_potato_disease_float16.tflite"
