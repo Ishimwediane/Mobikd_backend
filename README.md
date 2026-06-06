@@ -2,7 +2,7 @@
 
 The MobiKD backend is a fast, lightweight RESTful API built with **FastAPI**. It serves as the central brain connecting the MobiKD Flutter Mobile App and the Next.js Admin Dashboard. It handles user authentication, securely stores scan history, and performs AI inference on potato leaf images using TensorFlow.
 
-## 🚀 Technology Stack
+## Technology Stack
 * **Framework:** FastAPI (Python)
 * **Server:** Uvicorn
 * **Database:** PostgreSQL (Production on Render) / SQLite (Local Development)
@@ -11,7 +11,7 @@ The MobiKD backend is a fast, lightweight RESTful API built with **FastAPI**. It
 
 ---
 
-## 🛠 Local Development Setup
+##  Local Development Setup
 
 You can easily run this server on your local machine for testing. It will automatically use a local SQLite database (`mobikd.db`) so you don't have to install PostgreSQL.
 
@@ -31,7 +31,7 @@ You can easily run this server on your local machine for testing. It will automa
 
 ---
 
-## ☁️ Production Deployment (Render)
+##  Production Deployment (Render)
 
 The backend is configured for seamless deployment on **Render.com**. 
 
@@ -46,7 +46,7 @@ It uses a `render.yaml` Blueprint which automatically provisions:
 
 ---
 
-## 📚 API Endpoints Overview
+##  API Endpoints Overview
 
 ### Authentication (`/auth`)
 * `POST /auth/signup` - Registers a new farmer (Phone, Name, Password).
@@ -72,7 +72,7 @@ It uses a `render.yaml` Blueprint which automatically provisions:
 
 ---
 
-## 🧠 AI Inference Pipeline (`inference.py`)
+##  AI Inference Pipeline (`inference.py`)
 
 The inference engine executes a two-stage classification process:
 
@@ -81,7 +81,7 @@ The inference engine executes a two-stage classification process:
 2. **Stage 2 (Disease Classifier):**
    If Stage 1 passes, the image is passed to the main MobileNetV2 disease model, which categorizes it into one of the classes: `Healthy`, `Early Blight`, `Late Blight`, or `Bacterial Wilt`.
 
-## 🗄️ Database Schema
+##  Database Schema
 
 The database relies on two main tables:
 
