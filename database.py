@@ -245,13 +245,13 @@ def admin_get_stats() -> dict:
     else:
         total_scans = cursor.fetchone()[0]
 
-    execute_query(cursor, "SELECT COUNT(*) FROM scan_history WHERE stage2_label != 'Healthy' AND stage2_label IS NOT NULL")
+    execute_query(cursor, "SELECT COUNT(*) FROM scan_history WHERE LOWER(stage2_label) != 'healthy' AND stage2_label IS NOT NULL")
     if DATABASE_URL and HAS_PSYCOPG2:
         diseased_count = cursor.fetchone()['count']
     else:
         diseased_count = cursor.fetchone()[0]
 
-    execute_query(cursor, "SELECT COUNT(*) FROM scan_history WHERE stage2_label = 'Healthy'")
+    execute_query(cursor, "SELECT COUNT(*) FROM scan_history WHERE LOWER(stage2_label) = 'healthy'")
     if DATABASE_URL and HAS_PSYCOPG2:
         healthy_count = cursor.fetchone()['count']
     else:
@@ -271,8 +271,8 @@ def admin_get_stats() -> dict:
     execute_query(cursor, """
         SELECT substr(timestamp, 1, 7) AS month,
                COUNT(*) AS total,
-               SUM(CASE WHEN stage2_label = 'Healthy' THEN 1 ELSE 0 END) AS healthy,
-               SUM(CASE WHEN stage2_label != 'Healthy' AND stage2_label IS NOT NULL THEN 1 ELSE 0 END) AS diseased
+               SUM(CASE WHEN LOWER(stage2_label) = 'healthy' THEN 1 ELSE 0 END) AS healthy,
+               SUM(CASE WHEN LOWER(stage2_label) != 'healthy' AND stage2_label IS NOT NULL THEN 1 ELSE 0 END) AS diseased
         FROM scan_history
         GROUP BY month
         ORDER BY month DESC
