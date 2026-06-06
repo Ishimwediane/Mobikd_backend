@@ -7,13 +7,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from PIL import Image
 
-from .database import (
+from database import (
     init_db,
     create_user, get_user, update_user,
     add_history_item, get_history, clear_history,
     admin_get_all_users, admin_get_all_scans, admin_get_stats, admin_delete_user,
 )
-from .inference import analyze_leaf_image
+from inference import analyze_leaf_image
 
 app = FastAPI(title="MobiKD Backend", description="FastAPI Backend for MobiKD Mobile App & Admin Dashboard")
 
