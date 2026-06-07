@@ -111,7 +111,7 @@ def get_user(phone: str):
         return dict(row)
     return None
 
-def update_user(old_phone: str, new_phone: str, name: str) -> bool:
+def update_user(old_phone: str, new_phone: str, name: str, password: str = None) -> bool:
     conn = get_connection()
     cursor = conn.cursor()
     try:
@@ -119,11 +119,18 @@ def update_user(old_phone: str, new_phone: str, name: str) -> bool:
             execute_query(cursor, "SELECT phone FROM users WHERE phone = ?", (new_phone,))
             if cursor.fetchone():
                 return False
-        execute_query(
-            cursor,
-            "UPDATE users SET phone = ?, name = ? WHERE phone = ?",
-            (new_phone, name, old_phone)
-        )
+        if password:
+            execute_query(
+                cursor,
+                "UPDATE users SET phone = ?, name = ?, password = ? WHERE phone = ?",
+                (new_phone, name, password, old_phone)
+            )
+        else:
+            execute_query(
+                cursor,
+                "UPDATE users SET phone = ?, name = ? WHERE phone = ?",
+                (new_phone, name, old_phone)
+            )
         conn.commit()
         return True
     except Exception as e:

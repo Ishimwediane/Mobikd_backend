@@ -45,6 +45,16 @@ class ProfileUpdateRequest(BaseModel):
     phone: str
     name: str
 
+class AdminUserCreateRequest(BaseModel):
+    phone: str
+    name: str
+    password: str
+
+class AdminUserUpdateRequest(BaseModel):
+    phone: str
+    name: str
+    password: str = None
+
 # ─── Auth Endpoints ───────────────────────────────────────────────────────────
 
 @app.post("/auth/signup")
@@ -176,3 +186,27 @@ def admin_delete_user_endpoint(phone: str):
     if not success:
         raise HTTPException(status_code=404, detail="User not found")
     return {"message": f"User {phone} deleted successfully"}
+
+@app.post("/admin/users")
+def admin_create_user_endpoint(req: AdminUserCreateRequest):
+    """Add a new user from the admin panel."""
+    phone_clean = req.phone.strip()
+    name_clean = req.name.strip()
+    if not phone_clean or not req.password:
+        raise HTTPException(status_code=400, detail="Phone and password cannot be empty")
+    success = create_user(phone_clean, name_clean, req.password)
+    if not success:
+        raise HTTPException(status_code=400, detail="Phone number is already registered")
+    return {"message": "User added successfully", "phone": phone_clean, "name": name_clean}
+
+@app.put("/admin/users/{phone}")
+def admin_update_user_endpoint(phone: str, req: AdminUserUpdateRequest):
+    """Update user details (name, phone, optional password) from the admin panel."""
+    phone_clean = req.phone.strip()
+    name_clean = req.name.strip()
+    password_clean = req.password.strip() if req.password else None
+    
+    success = update_user(phone, phone_clean, name_clean, password_clean)
+    if not success:
+        raise HTTPException(status_code=400, detail="Failed to update user. Phone number might be taken.")
+    return {"message": "User updated successfully", "phone": phone_clean, "name": name_clean}
